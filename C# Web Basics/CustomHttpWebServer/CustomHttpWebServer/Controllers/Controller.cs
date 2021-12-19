@@ -20,5 +20,10 @@ namespace CustomHttpWebServer.Controllers
         {
             return new HtmlResponse(html);
         }
+
+        protected HttpResponse Redirect(string location)
+        {
+            return new RedirectResponse(location);
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace CustomHttpWebServer.App
         static async  Task Main()
             => await new HttpServer(routes => routes
                     .MapGet<HomeController>("/", c=> c.Index())
+                    .MapGet<HomeController>("/Google", c => c.ToSomeOtherLocation())
                     .MapGet<AnimalsController>("/Cats", c=> c.Cats())
                     .MapGet<AnimalsController>("/Dogs", c=> c.Dogs()))
                 .Start();

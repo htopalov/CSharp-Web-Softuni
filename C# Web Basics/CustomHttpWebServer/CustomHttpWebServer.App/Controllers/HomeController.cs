@@ -14,5 +14,10 @@ namespace CustomHttpWebServer.App.Controllers
         {
             return Text("Hello from server!");
         }
+
+        public HttpResponse ToSomeOtherLocation()
+        {
+            return Redirect("https://google.bg");
+        }
     }
 }
