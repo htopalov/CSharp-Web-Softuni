@@ -13,12 +13,14 @@ namespace CustomHttpWebServer.Server
         private readonly IPAddress ipAddress;
         private readonly int port;
         private readonly TcpListener listener;
+        private readonly RoutingTable routingTable;
 
-        public HttpServer(string ipAddress, int port, Action<IRoutingTable> routingTable)
+        public HttpServer(string ipAddress, int port, Action<IRoutingTable> routingTableConfiguration)
         {
             this.ipAddress = IPAddress.Parse(ipAddress);
             this.port = port;
             this.listener = new TcpListener(this.ipAddress, port);
+            routingTableConfiguration(this.routingTable = new RoutingTable());
         }
 
         public HttpServer(int port, Action<IRoutingTable> routingTable)
@@ -46,11 +48,13 @@ namespace CustomHttpWebServer.Server
 
                 var requestText = await this.ReadRequest(networkStream);
 
-                Console.WriteLine(requestText);
+                //Console.WriteLine(requestText);
 
-                //var request = HttpRequest.Parse(requestText);
+                var request = HttpRequest.Parse(requestText);
 
-                await this.WriteResponse(networkStream);
+                var response = this.routingTable.MatchRequest(request);
+
+                await this.WriteResponse(networkStream, response);
 
                 connection.Close();
             }
@@ -81,22 +85,9 @@ namespace CustomHttpWebServer.Server
             return requestBuilder.ToString();
         }
 
-        private async Task WriteResponse(NetworkStream networkStream)
+        private async Task WriteResponse(NetworkStream networkStream, HttpResponse response)
         {
-            var content = "<h1>Hello from the server side!</h1>";
-
-            var contentLength = Encoding.UTF8.GetByteCount(content);
-
-            var response = $@"
-HTTP/1.1 200 OK
-Server: MyHttpWebServer
-Date: {DateTime.UtcNow:r}
-Content-Length: {contentLength}
-Content-Type: text/html; charset=UTF-8
-
-{content}";
-
-            var responseBytes = Encoding.UTF8.GetBytes(response);
+            var responseBytes = Encoding.UTF8.GetBytes(response.ToString());
 
             await networkStream.WriteAsync(responseBytes);
         }
