@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace CustomHttpWebServer.Server.Http
 {
@@ -10,7 +11,9 @@ namespace CustomHttpWebServer.Server.Http
 
         public HttpMethod Method { get; private set; }
 
-        public string Url { get; private set; }
+        public string Path { get; private set; }
+
+        public Dictionary<string,string> Query { get; private set; }
 
         public HttpHeaderCollection Headers { get; private set; }
 
@@ -26,6 +29,8 @@ namespace CustomHttpWebServer.Server.Http
 
             var url = startLine[1];
 
+            var (path, query) = ParseUrl(url);
+
             var headers = ParseHttpHeaders(lines.Skip(1));
 
             var body = string.Join(NewLine, lines.Skip(headers.Count + 2).ToArray());
@@ -33,7 +38,8 @@ namespace CustomHttpWebServer.Server.Http
             return new HttpRequest()
             {
                 Method = method,
-                Url = url,
+                Path = path,
+                Query = query,
                 Headers = headers,
                 Body = body
             };
@@ -78,5 +84,26 @@ namespace CustomHttpWebServer.Server.Http
                 _ => throw new InvalidOperationException($"Method {method} is not supported.")
             };
         }
+        private static (string, Dictionary<string,string>) ParseUrl(string url)
+        {
+            var urlParts = url.Split("?");
+
+            var path = urlParts[0];
+            var query = urlParts.Length > 1
+                ? ParseQuery(urlParts[1])
+                : new Dictionary<string, string>();
+
+            return (path, query);
+        }
+
+        private static Dictionary<string, string> ParseQuery(string queryString)
+        {
+            return queryString
+                    .Split("&")
+                    .Select(part => part.Split('='))
+                    .Where(part => part.Length == 2)
+                    .ToDictionary(part => part[0], part => part[1]);
+        }
+
     }
 }
