@@ -6,17 +6,20 @@
 */
 
 using System.Threading.Tasks;
+using CustomHttpWebServer.Controllers;
 using CustomHttpWebServer.Server;
+using CustomHttpWebServer.Server.Http;
+using CustomHttpWebServer.Server.Responses;
 
 namespace CustomHttpWebServer
 {
     public class StartUp
     {
         static async  Task Main()
-        {
-            var server = new HttpServer("127.0.0.1", 9090);
-
-            await server.Start();
-        }
+            => await new HttpServer(routes => routes
+                    .MapGet("/", new TextResponse("Hello from server!"))
+                    .MapGet("/Cats", new TextResponse("<h1>Hello from cats on the server!</h1>", "text/html"))
+                    .MapGet("/Dogs", new TextResponse("<h1>Hello from dogs on the server!</h1>", "text/html")))
+                .Start();
     }
 }

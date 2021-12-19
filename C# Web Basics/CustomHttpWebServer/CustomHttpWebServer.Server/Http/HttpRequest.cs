@@ -51,20 +51,17 @@ namespace CustomHttpWebServer.Server.Http
                     break;
                 }
 
-                var indexOfColon = headerLine.IndexOf(":");
+                var headerParts = headerLine.Split(":", 2);
 
-                if (indexOfColon < 0)
+                if (headerParts.Length != 2)
                 {
                     throw new InvalidOperationException("Request is not valid.");
                 }
 
-                var header = new HttpHeader()
-                {
-                    Name = headerLine.Substring(0,indexOfColon),
-                    Value = headerLine.Substring(indexOfColon + 1).Trim()
-                };
+                var headerName = headerParts[0];
+                var headerValue = headerParts[1].Trim();
 
-                headerCollection.Add(header);
+                headerCollection.Add(headerName, headerValue);
             }
 
             return headerCollection;
@@ -81,10 +78,5 @@ namespace CustomHttpWebServer.Server.Http
                 _ => throw new InvalidOperationException($"Method {method} is not supported.")
             };
         }
-
-        //private static string[] GetStartLine(string request)
-        //{
-
-        //}
     }
 }

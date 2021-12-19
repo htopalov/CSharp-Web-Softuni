@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using CustomHttpWebServer.Server.Http;
+using CustomHttpWebServer.Server.Routing;
 
 namespace CustomHttpWebServer.Server
 {
@@ -13,11 +14,21 @@ namespace CustomHttpWebServer.Server
         private readonly int port;
         private readonly TcpListener listener;
 
-        public HttpServer(string ipAddress, int port)
+        public HttpServer(string ipAddress, int port, Action<IRoutingTable> routingTable)
         {
             this.ipAddress = IPAddress.Parse(ipAddress);
             this.port = port;
             this.listener = new TcpListener(this.ipAddress, port);
+        }
+
+        public HttpServer(int port, Action<IRoutingTable> routingTable)
+          :this("127.0.0.1", port, routingTable)
+        {
+        }
+
+        public HttpServer(Action<IRoutingTable> routingTable)
+            :this(5000, routingTable)
+        {
         }
 
         public async Task Start()
@@ -37,7 +48,7 @@ namespace CustomHttpWebServer.Server
 
                 Console.WriteLine(requestText);
 
-                var request = HttpRequest.Parse(requestText);
+                //var request = HttpRequest.Parse(requestText);
 
                 await this.WriteResponse(networkStream);
 
@@ -50,14 +61,22 @@ namespace CustomHttpWebServer.Server
             var bufferLength = 1024;
             var buffer = new byte[bufferLength];
 
+            var totalBytes = 0;
             var requestBuilder = new StringBuilder();
 
-            while (networkStream.DataAvailable)
+            do
             {
                 var bytesRead = await networkStream.ReadAsync(buffer, 0, bufferLength);
+                totalBytes += bytesRead;
+                if (totalBytes > 10 * 1024)
+                {
+                    throw new InvalidOperationException("Request is too large.");
+                }
 
                 requestBuilder.Append(Encoding.UTF8.GetString(buffer, 0, bytesRead));
-            }
+            } 
+            while (networkStream.DataAvailable);
+
 
             return requestBuilder.ToString();
         }
