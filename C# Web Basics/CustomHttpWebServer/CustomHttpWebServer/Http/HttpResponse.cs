@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace CustomHttpWebServer.Server.Http
+namespace CustomHttpWebServer.Http
 {
     public abstract class HttpResponse
     {

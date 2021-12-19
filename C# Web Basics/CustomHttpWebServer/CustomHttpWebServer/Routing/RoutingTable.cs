@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using CustomHttpWebServer.Server.Common;
-using CustomHttpWebServer.Server.Http;
-using CustomHttpWebServer.Server.Responses;
+using CustomHttpWebServer.Common;
+using CustomHttpWebServer.Http;
+using CustomHttpWebServer.Responses;
 
-namespace CustomHttpWebServer.Server.Routing
+namespace CustomHttpWebServer.Routing
 {
     public class RoutingTable : IRoutingTable
     {

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomHttpWebServer", "CustomHttpWebServer\CustomHttpWebServer.csproj", "{97BE7938-0A92-41A5-B78D-975F2E69AEB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomHttpWebServer.App", "CustomHttpWebServer.App\CustomHttpWebServer.App.csproj", "{97BE7938-0A92-41A5-B78D-975F2E69AEB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomHttpWebServer.Server", "CustomHttpWebServer.Server\CustomHttpWebServer.Server.csproj", "{6BCB08BA-9A81-4C84-B6EA-FC2CC7C474C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomHttpWebServer", "CustomHttpWebServer\CustomHttpWebServer.csproj", "{6BCB08BA-9A81-4C84-B6EA-FC2CC7C474C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

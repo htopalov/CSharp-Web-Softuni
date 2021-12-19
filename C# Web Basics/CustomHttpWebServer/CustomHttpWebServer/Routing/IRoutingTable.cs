@@ -1,7 +1,7 @@
 ﻿using System;
-using CustomHttpWebServer.Server.Http;
+using CustomHttpWebServer.Http;
 
-namespace CustomHttpWebServer.Server.Routing
+namespace CustomHttpWebServer.Routing
 {
     public interface IRoutingTable
     {

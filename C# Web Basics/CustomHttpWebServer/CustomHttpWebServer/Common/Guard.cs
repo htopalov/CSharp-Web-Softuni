@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CustomHttpWebServer.Server.Common
+namespace CustomHttpWebServer.Common
 {
     public static class Guard
     {

@@ -1,6 +1,6 @@
-﻿using CustomHttpWebServer.Server.Common;
+﻿using CustomHttpWebServer.Common;
 
-namespace CustomHttpWebServer.Server.Http
+namespace CustomHttpWebServer.Http
 {
     public class HttpHeader
     {

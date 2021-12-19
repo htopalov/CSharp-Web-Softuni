@@ -1,6 +1,6 @@
-﻿using CustomHttpWebServer.Server.Http;
+﻿using CustomHttpWebServer.Http;
 
-namespace CustomHttpWebServer.Server.Responses
+namespace CustomHttpWebServer.Responses
 {
     public class NotFoundResponse : HttpResponse
     {

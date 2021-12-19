@@ -1,4 +1,4 @@
-﻿namespace CustomHttpWebServer.Server.Http
+﻿namespace CustomHttpWebServer.Http
 {
     public enum HttpMethod
     {

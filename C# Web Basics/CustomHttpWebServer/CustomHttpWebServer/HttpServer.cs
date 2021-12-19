@@ -3,10 +3,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using CustomHttpWebServer.Server.Http;
-using CustomHttpWebServer.Server.Routing;
+using CustomHttpWebServer.Http;
+using CustomHttpWebServer.Routing;
 
-namespace CustomHttpWebServer.Server
+namespace CustomHttpWebServer
 {
     public class HttpServer
     {
