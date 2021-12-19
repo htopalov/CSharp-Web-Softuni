@@ -18,7 +18,18 @@ namespace CustomHttpWebServer
         static async  Task Main()
             => await new HttpServer(routes => routes
                     .MapGet("/", new TextResponse("Hello from server!"))
-                    .MapGet("/Cats", new HtmlResponse("<h1>Hello from cats on the server!</h1>"))
+                    .MapGet("/Cats", request =>
+                    {
+                        const string nameKey = "Name";
+                        var query = request.Query;
+                        var catName = query.ContainsKey(nameKey)
+                            ? query[nameKey]
+                            : " the cats";
+
+                        var result = $"<h1>Hello from {catName} on the server!</h1>";
+
+                        return new HtmlResponse(result);
+                    })
                     .MapGet("/Dogs", new HtmlResponse("<h1>Hello from dogs on the server!</h1>")))
                 .Start();
     }
