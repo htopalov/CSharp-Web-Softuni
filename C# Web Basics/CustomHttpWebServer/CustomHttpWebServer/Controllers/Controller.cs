@@ -1,4 +1,5 @@
-﻿using CustomHttpWebServer.Http;
+﻿using System.Runtime.CompilerServices;
+using CustomHttpWebServer.Http;
 using CustomHttpWebServer.Responses;
 
 namespace CustomHttpWebServer.Controllers
@@ -24,6 +25,16 @@ namespace CustomHttpWebServer.Controllers
         protected HttpResponse Redirect(string location)
         {
             return new RedirectResponse(location);
+        }
+
+        protected HttpResponse View([CallerMemberName] string viewName = "")
+        {
+            return new ViewResponse(viewName, this.GetControllerName());
+        }
+
+        private string GetControllerName()
+        {
+            return this.GetType().Name.Replace(nameof(Controller), string.Empty);
         }
     }
 }

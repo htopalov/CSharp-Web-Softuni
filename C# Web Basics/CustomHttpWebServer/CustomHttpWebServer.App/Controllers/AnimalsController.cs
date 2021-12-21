@@ -25,7 +25,17 @@ namespace CustomHttpWebServer.App.Controllers
 
         public HttpResponse Dogs()
         {
-            return Html("<h1>Hello from dogs on the server!</h1>");
+            return View();
+        }
+
+        public HttpResponse Bunnies()
+        {
+            return View("Rabbits");
+        }
+
+        public HttpResponse Turtles()
+        {
+            return View("Animals/Wild/Turtles");
         }
     }
 }

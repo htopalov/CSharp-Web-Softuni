@@ -18,7 +18,9 @@ namespace CustomHttpWebServer.App
                     .MapGet<HomeController>("/", c=> c.Index())
                     .MapGet<HomeController>("/Google", c => c.ToSomeOtherLocation())
                     .MapGet<AnimalsController>("/Cats", c=> c.Cats())
-                    .MapGet<AnimalsController>("/Dogs", c=> c.Dogs()))
+                    .MapGet<AnimalsController>("/Dogs", c=> c.Dogs())
+                    .MapGet<AnimalsController>("/Bunnies", c=> c.Bunnies())
+                    .MapGet<AnimalsController>("/Turtles", c=> c.Turtles()))
                 .Start();
     }
 }
