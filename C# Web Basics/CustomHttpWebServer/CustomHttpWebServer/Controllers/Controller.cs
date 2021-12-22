@@ -29,7 +29,17 @@ namespace CustomHttpWebServer.Controllers
 
         protected HttpResponse View([CallerMemberName] string viewName = "")
         {
-            return new ViewResponse(viewName, this.GetControllerName());
+            return new ViewResponse(viewName, this.GetControllerName(), null);
+        }
+
+        protected HttpResponse View(string viewName, object model)
+        {
+            return new ViewResponse(viewName, this.GetControllerName(), model);
+        }
+
+        protected HttpResponse View(object model, [CallerMemberName] string viewName = "")
+        {
+            return new ViewResponse(viewName, this.GetControllerName(), model);
         }
 
         private string GetControllerName()

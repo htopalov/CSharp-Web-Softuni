@@ -1,4 +1,5 @@
-﻿using CustomHttpWebServer.Controllers;
+﻿using CustomHttpWebServer.App.Models.Animals;
+using CustomHttpWebServer.Controllers;
 using CustomHttpWebServer.Http;
 
 namespace CustomHttpWebServer.App.Controllers
@@ -13,14 +14,24 @@ namespace CustomHttpWebServer.App.Controllers
         public HttpResponse Cats()
         {
             const string nameKey = "Name";
+            const string ageKey = "Age";
+
             var query = this.Request.Query;
             var catName = query.ContainsKey(nameKey)
                 ? query[nameKey]
                 : " the cats";
 
-            var result = $"<h1>Hello from {catName} on the server!</h1>";
+            var catAge = query.ContainsKey(ageKey)
+                ? int.Parse(query[ageKey])
+                : 0;
 
-            return Html(result);
+            var catViewModel = new CatViewModel
+            {
+                Name = catName,
+                Age = catAge
+            };
+
+            return View(catViewModel);
         }
 
         public HttpResponse Dogs()
