@@ -36,7 +36,12 @@ namespace CustomHttpWebServer.App.Controllers
 
         public HttpResponse Dogs()
         {
-            return View();
+            return View(new DogViewModel
+            {
+                Name = "Balkan",
+                Age = 12,
+                Breed = "Boxer"
+            });
         }
 
         public HttpResponse Bunnies()
