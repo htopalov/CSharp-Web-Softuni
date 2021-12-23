@@ -6,6 +6,8 @@ namespace CustomHttpWebServer.Http
 {
     public class HttpRequest
     {
+        private static Dictionary<string, HttpSession> Sessions = new();
+
         private const string NewLine = "\r\n";
 
         public HttpMethod Method { get; private set; }
@@ -14,11 +16,13 @@ namespace CustomHttpWebServer.Http
 
         public IReadOnlyDictionary<string,string> Query { get; private set; }
 
-        public IReadOnlyDictionary<string,string> Form { get; private set; }
-
         public IReadOnlyDictionary<string, HttpHeader> Headers { get; private set; }
 
         public IReadOnlyDictionary<string, HttpCookie> Cookies { get; private set; }
+
+        public IReadOnlyDictionary<string,string> Form { get; private set; }
+
+        public HttpSession Session { get; private set; }
 
         public string Body { get; private set; }
 
@@ -38,6 +42,8 @@ namespace CustomHttpWebServer.Http
 
             var cookies = ParseCookies(headers);
 
+            var session = GetSession(cookies);
+
             var body = string.Join(NewLine, lines.Skip(headers.Count + 2).ToArray());
 
             var form = ParseForm(headers, body);
@@ -49,10 +55,17 @@ namespace CustomHttpWebServer.Http
                 Query = query,
                 Headers = headers,
                 Cookies = cookies,
+                Session = session,
                 Body = body,
                 Form = form
             };
 
+        }
+
+        public override string ToString()
+        {
+            //TODO:
+            return null;
         }
 
         private static Dictionary<string,HttpHeader> ParseHeaders(IEnumerable<string> headerLines)
@@ -108,6 +121,20 @@ namespace CustomHttpWebServer.Http
             return cookieCollection;
         }
 
+        private static HttpSession GetSession(Dictionary<string, HttpCookie> cookies)
+        {
+            var sessionId = cookies.ContainsKey(HttpSession.SessionCookieName)
+                ? cookies[HttpSession.SessionCookieName].Value
+                : Guid.NewGuid().ToString();
+
+            if (!Sessions.ContainsKey(sessionId))
+            {
+                Sessions[sessionId] = new HttpSession(sessionId);
+            }
+
+            return Sessions[sessionId];
+        }
+
         private static HttpMethod ParseMethod(string method)
         {
             return method.ToUpper() switch
@@ -116,7 +143,7 @@ namespace CustomHttpWebServer.Http
                 "POST" => HttpMethod.Post, 
                 "PUT" => HttpMethod.Put, 
                 "DELETE" => HttpMethod.Delete,
-                _ => HttpMethod.Get //throw new InvalidOperationException($"Method {method} is not supported.")
+                _ => throw new InvalidOperationException($"Method {method} is not supported.")
             };
         }
         private static (string, Dictionary<string,string>) ParseUrl(string url)

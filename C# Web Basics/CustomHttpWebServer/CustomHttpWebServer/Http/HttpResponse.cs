@@ -50,6 +50,14 @@ namespace CustomHttpWebServer.Http
             this.Content = content;
         }
 
+        public static HttpResponse ForError(string message)
+        {
+            return new HttpResponse(HttpStatusCode.InternalServerError)
+            {
+                Content = message
+            };
+        }
+
         public override string ToString()
         {
             var result = new StringBuilder();

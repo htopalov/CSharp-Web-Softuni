@@ -1,4 +1,5 @@
-﻿using CustomHttpWebServer.Controllers;
+﻿using System;
+using CustomHttpWebServer.Controllers;
 using CustomHttpWebServer.Http;
 
 namespace CustomHttpWebServer.App.Controllers
@@ -18,6 +19,11 @@ namespace CustomHttpWebServer.App.Controllers
         public HttpResponse ToSomeOtherLocation()
         {
             return Redirect("https://google.bg");
+        }
+
+        public HttpResponse Error()
+        {
+            throw new InvalidOperationException("Invalid action!");
         }
     }
 }
