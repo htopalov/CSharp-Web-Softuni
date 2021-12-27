@@ -83,7 +83,9 @@ namespace CustomHttpWebServer.Http
                 var headerName = headerParts[0];
                 var headerValue = headerParts[1].Trim();
 
-                headerCollection.Add(headerName, new HttpHeader(headerName,headerValue));
+                var header = new HttpHeader(headerName, headerValue);
+
+                headerCollection[headerName] = header;
             }
 
             return headerCollection;
@@ -108,7 +110,9 @@ namespace CustomHttpWebServer.Http
                     var cookieName = cookieParts[0].Trim();
                     var cookieValue = cookieParts[1].Trim();
 
-                    cookieCollection.Add(cookieName, new HttpCookie(cookieName,cookieValue));
+                    var cookie = new HttpCookie(cookieName, cookieValue);
+
+                    cookieCollection[cookieName] = cookie;
                 }
             }
 

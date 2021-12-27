@@ -52,22 +52,17 @@ namespace CustomHttpWebServer.Controllers
 
         protected ActionResult View([CallerMemberName] string viewName = "")
         {
-            return new ViewResult(this.Response, viewName, this.GetControllerName(), null);
+            return new ViewResult(this.Response, viewName, this.GetType().GetControllerName(), null);
         }
 
         protected ActionResult View(string viewName, object model)
         {
-            return new ViewResult(this.Response, viewName, this.GetControllerName(), model);
+            return new ViewResult(this.Response, viewName, this.GetType().GetControllerName(), model);
         }
 
         protected ActionResult View(object model, [CallerMemberName] string viewName = "")
         {
-            return new ViewResult(this.Response, viewName, this.GetControllerName(), model);
-        }
-
-        private string GetControllerName()
-        {
-            return this.GetType().Name.Replace(nameof(Controller), string.Empty);
+            return new ViewResult(this.Response, viewName, this.GetType().GetControllerName(), model);
         }
     }
 }
