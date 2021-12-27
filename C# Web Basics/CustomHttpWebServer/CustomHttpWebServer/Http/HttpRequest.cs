@@ -62,12 +62,6 @@ namespace CustomHttpWebServer.Http
 
         }
 
-        public override string ToString()
-        {
-            //TODO:
-            return null;
-        }
-
         private static Dictionary<string,HttpHeader> ParseHeaders(IEnumerable<string> headerLines)
         {
             var headerCollection = new Dictionary<string,HttpHeader>();
@@ -129,7 +123,10 @@ namespace CustomHttpWebServer.Http
 
             if (!Sessions.ContainsKey(sessionId))
             {
-                Sessions[sessionId] = new HttpSession(sessionId);
+                Sessions[sessionId] = new HttpSession(sessionId)
+                {
+                    IsNew = true
+                };
             }
 
             return Sessions[sessionId];

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using CustomHttpWebServer.Http;
 using CustomHttpWebServer.Routing;
-using HttpStatusCode = CustomHttpWebServer.Http.HttpStatusCode;
 
 namespace CustomHttpWebServer
 {
@@ -59,7 +58,7 @@ namespace CustomHttpWebServer
 
                         this.PrepareSession(request, response);
 
-                        this.LogPipeline(request, response);
+                        this.LogPipeline(requestText, response.ToString());
 
                         await this.WriteResponse(networkStream, response);
                     }
@@ -100,7 +99,11 @@ namespace CustomHttpWebServer
 
         private void PrepareSession(HttpRequest request, HttpResponse response)
         {
-            response.AddCookie(HttpSession.SessionCookieName, request.Session.Id);
+            if (request.Session.IsNew)
+            {
+                response.AddCookie(HttpSession.SessionCookieName, request.Session.Id);
+                request.Session.IsNew = false;
+            }
         }
 
         private async Task HandleError(Exception e, NetworkStream networkStream)
@@ -111,7 +114,7 @@ namespace CustomHttpWebServer
             await WriteResponse(networkStream, errorResponse);
         }
 
-        private void LogPipeline(HttpRequest request, HttpResponse response)
+        private void LogPipeline(string request, string response)
         {
             var separator = new string('-', 50);
             var log = new StringBuilder();
@@ -120,12 +123,12 @@ namespace CustomHttpWebServer
             log.AppendLine(separator);
 
             log.AppendLine("REQUEST:");
-            log.AppendLine(request.ToString());
+            log.AppendLine(request);
 
             log.AppendLine();
 
             log.AppendLine("RESPONSE:");
-            log.AppendLine(response.ToString());
+            log.AppendLine(response);
 
             log.AppendLine();
 

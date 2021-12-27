@@ -17,6 +17,8 @@ namespace CustomHttpWebServer.Http
 
         public string Id { get; init; }
 
+        public bool IsNew { get; set; }
+
         public string this[string key]
         {
             get => this.data[key];
