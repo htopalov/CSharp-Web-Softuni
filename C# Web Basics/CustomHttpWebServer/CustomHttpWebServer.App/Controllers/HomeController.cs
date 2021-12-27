@@ -21,6 +21,11 @@ namespace CustomHttpWebServer.App.Controllers
             return Redirect("https://google.bg");
         }
 
+        public HttpResponse StaticFiles()
+        {
+            return View();
+        }
+
         public HttpResponse Error()
         {
             throw new InvalidOperationException("Invalid action!");
