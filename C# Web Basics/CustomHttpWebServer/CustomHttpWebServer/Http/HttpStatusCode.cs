@@ -4,8 +4,10 @@
     {
         OK = 200,
         BadRequest = 400,
+        Unauthorized = 401,
         NotFound = 404,
         Found = 302,
-        InternalServerError = 500
+        InternalServerError = 500,
+
     }
 }

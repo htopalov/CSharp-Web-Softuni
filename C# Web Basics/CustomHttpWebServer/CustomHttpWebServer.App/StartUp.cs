@@ -17,8 +17,7 @@ namespace CustomHttpWebServer.App
             => await new HttpServer(routes => routes
                     .MapStaticFiles()
                     .MapControllers()
-                    .MapGet<HomeController>("/Google", c => c.ToSomeOtherLocation())
-                    .MapPost<CatsController>("/Cats/Save", c=> c.Save()))
-                .Start();
+                    .MapGet<HomeController>("/Google", c => c.ToSomeOtherLocation()))
+                    .Start();
     }
 }
