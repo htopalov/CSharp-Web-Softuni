@@ -17,11 +17,8 @@ namespace CustomHttpWebServer.App.Controllers
         }
 
         [HttpPost]
-        public HttpResponse Save()
+        public HttpResponse Save(string name, int age)
         {
-            var name = this.Request.Form["Name"];
-            var age = this.Request.Form["Age"];
-            
             return Text($"{name} - {age}");
         }
     }
