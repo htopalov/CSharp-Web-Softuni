@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using CustomHttpWebServer.Http.Collections;
+using CustomHttpWebServer.Services;
 
 namespace CustomHttpWebServer.Http
 {
@@ -26,9 +27,11 @@ namespace CustomHttpWebServer.Http
 
         public HttpSession Session { get; private set; }
 
+        public ServiceCollection Services { get; private set; }
+
         public string Body { get; private set; }
 
-        public static HttpRequest Parse(string request)
+        public static HttpRequest Parse(string request, ServiceCollection services)
         {
             var lines = request.Split(NewLine);
 
@@ -59,7 +62,8 @@ namespace CustomHttpWebServer.Http
                 Cookies = cookies,
                 Session = session,
                 Body = body,
-                Form = form
+                Form = form,
+                Services = services
             };
 
         }

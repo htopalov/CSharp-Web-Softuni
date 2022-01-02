@@ -7,6 +7,7 @@
 
 using System.Threading.Tasks;
 using CustomHttpWebServer.App.Controllers;
+using CustomHttpWebServer.App.Data;
 using CustomHttpWebServer.Controllers;
 
 namespace CustomHttpWebServer.App
@@ -14,10 +15,13 @@ namespace CustomHttpWebServer.App
     public class StartUp
     {
         static async  Task Main()
-            => await new HttpServer(routes => routes
+            => await HttpServer
+                .WithRoutes(routes => routes
                     .MapStaticFiles()
                     .MapControllers()
-                    .MapGet<HomeController>("/Google", c => c.ToSomeOtherLocation()))
+                    .MapGet<HomeController>("/ToCats", c => c.ToSomeOtherLocation()))
+                .WithServices(service => service
+                    .Add<IData,MyDbContex>())
                     .Start();
     }
 }
