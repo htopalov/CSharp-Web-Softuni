@@ -43,9 +43,7 @@ namespace CustomHttpWebServer.Controllers
         protected void SignOut()
         {
             this.Request.Session.Remove(UserSessionKey);
-            this.User = this.Request.Session.ContainsKey(UserSessionKey)
-                ? new UserIdentity {Id = this.Request.Session[UserSessionKey]}
-                : new UserIdentity();
+            this.userIdentity = new();
         }
 
         protected ActionResult Text(string text)
